@@ -10,6 +10,7 @@ def visualize_expected_vs_observed_reads(sample_sub_dirs, demultiplex_barcode_co
         plt.scatter(expected_reads, demultiplex_barcode_counts[0], label=sample_sub_dir, alpha=0.7)
         plt.xlabel("Expected reads")
         plt.ylabel("Observed reads")
+    
     plt.title("Expected vs. Observed Reads - All Sub-Libraries")
     plt.legend(loc='center left', bbox_to_anchor=(1.0, 0.5))
     x = [0, 7e6]
@@ -18,4 +19,3 @@ def visualize_expected_vs_observed_reads(sample_sub_dirs, demultiplex_barcode_co
     plt.xlim(0, 7e6)
     plt.ylim(0, 7e6)
     plt.show()
-    # 20234

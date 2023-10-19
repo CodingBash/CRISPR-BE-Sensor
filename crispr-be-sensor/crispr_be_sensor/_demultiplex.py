@@ -14,28 +14,18 @@ from collections import defaultdict
 
 @dataclass
 class ReadDemultiplexStrategy:
-    read1_match_string: Union[List]
+    read1_match_string: List
     read2_match_string: Union[List,None]
     output_dir: str 
     U6PE1_handle_long: str = "GGAAAGGACGAAACACCG"
     U6PE1_handle_short: str = "GGAAAGG"
     
-lanes = ["L1", "L2"]
-reads = ["1", "2"]
-
-# 20230620 NOTE - these should not be in the package, but as inputs.
-combined_matches = [[f"{lanes[0]}_{reads[0]}", f"{lanes[1]}_{reads[0]}"], [f"{lanes[0]}_{reads[1]}", f"{lanes[1]}_{reads[1]}"]]
-output_dir = "/data/pinello/PROJECTS/2023_03_BB_SensorDemultiplexAndAnalysis/20230328_NovaSeq_DemultiplexDataResult_v6"
-read_demultiplex_strategy = ReadDemultiplexStrategy(read1_match_string=combined_matches[0], read2_match_string=combined_matches[1], output_dir=output_dir)
-
-
-
 # EXPORT IN __init__.py
 ##
 # sample_indices_df_subset: DATAFRAME CONTAINING i5_INDEX DEMULTIPLEX SAMPLES - Must contain column "sub_library_name", "i5_index"
 # sample_pooling_df_subset: DATAFREAME CONTAINING U6PE1_BARCODE DEMULTIPLE SAMMPLES - Must contain column "i5_index" and U6PE1_Barcode
 ##
-def main_perform_demultiplex(read_demultiplex_strategy: ReadDemultiplexStrategy, data_root_dir:str, sample_sub_dirs: List[str], sample_indices_df_subset: pd.Dataframe, sample_pooling_df_subset: pd.Dataframe, read_cores: int = 1):
+def main_perform_demultiplex(read_demultiplex_strategy: ReadDemultiplexStrategy, data_root_dir:str, sample_sub_dirs: List[str], sample_indices_df_subset: pd.DataFrame, sample_pooling_df_subset: pd.DataFrame, read_cores: int = 1):
     
     # Start by creating the directory for the demultiplexed FASTQS
     if not os.path.exists(read_demultiplex_strategy.output_dir):
@@ -56,7 +46,7 @@ def main_perform_demultiplex(read_demultiplex_strategy: ReadDemultiplexStrategy,
 
 
 # EXPORT IN __init__.py
-def main_perform_demultiplex_qc(sample_sub_dirs, read_demultiplex_strategy, sample_indices_df_subset, sample_pooling_df_subset, read_cores: int = 1) -> dict:
+def main_perform_demultiplex_qc(sample_sub_dirs: List[str], read_demultiplex_strategy: ReadDemultiplexStrategy, sample_indices_df_subset: pd.DataFrame, sample_pooling_df_subset: pd.DataFrame, read_cores: int = 1) -> dict:
     
     ###
     ### Get counts of unrecognized barcodes
